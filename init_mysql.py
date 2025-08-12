@@ -1,3 +1,5 @@
+from app import app
+
 from service.database.models import creat_table,drop_table,AdminUser
 from service.config.config import init_db
 from service.api.db import db
@@ -55,6 +57,10 @@ def mod_key():
         with open('./service/api/db.py','w',encoding='utf-8') as f:
             f.write(w_str)
 
-init()
+#init()
+if __name__ == '__main__':
+    # 手动创建并推入一个应用上下文
+    with app.app_context():
+        init()
 
 

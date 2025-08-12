@@ -93,8 +93,8 @@ ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg','gif','ico' }
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
-@admin.route('/upload',methods=['POST'], endpoint='upload')
-@jwt_required()
+@admin.route('/upload',methods=['POST'])
+@jwt_required
 def upload():
     file = request.files['file']
     # file = request.json.get('file', None)
@@ -116,8 +116,8 @@ def upload():
         return 'faild'
 
 
-@admin.route('/dashboard', methods=['get'], endpoint='dashboard')
-@jwt_required()
+@admin.route('/dashboard', methods=['get'])
+@jwt_required
 def dashboard():
     info = {}
     info['cag_num'] = len(ProdCag.query.filter().all()) #总分类
@@ -149,8 +149,8 @@ def sort_count(temp):
     return date,price    
 
 
-@admin.route('/incom_count', methods=['get'], endpoint='incom_count')
-@jwt_required()
+@admin.route('/incom_count', methods=['get'])
+@jwt_required
 def incom_count():
     id = request.args.get('id',None)
     if not id:
@@ -193,8 +193,8 @@ def incom_count():
     info['history_date'],info['history_price'] = sort_count([(x.updatetime.strftime(ftime),x.total_price) for x in orders])    
     return jsonify(info)
 
-@admin.route('/get_smtp', methods=['get'], endpoint='get_smtp')
-@jwt_required()
+@admin.route('/get_smtp', methods=['get'])
+@jwt_required
 def get_smtp():
     try:
         smtp = Notice.query.filter_by(id = 1).first()
@@ -204,8 +204,8 @@ def get_smtp():
         return '数据库异常', 500    
     
 
-@admin.route('/update_smtp', methods=['post'], endpoint='update_smtp')
-@jwt_required()
+@admin.route('/update_smtp', methods=['post'])
+@jwt_required
 def update_smtp():
     data = request.json.get('data', None)
     if not data:
@@ -220,8 +220,8 @@ def update_smtp():
     # 重定向登录界面
     return '邮箱更新成功', 200
 
-@admin.route('/test_smtp', methods=['post'], endpoint='test_smtp')
-@jwt_required()
+@admin.route('/test_smtp', methods=['post'])
+@jwt_required
 def test_smtp():
     # print(request.json)
     email = request.json.get('email', None)
@@ -239,8 +239,8 @@ def test_smtp():
     except Exception as e:
         log(e)
         return '邮箱配置可能有错误', 400      
-@admin.route('/get_sms', methods=['get'], endpoint='get_sms')
-@jwt_required()
+@admin.route('/get_sms', methods=['get'])
+@jwt_required
 def get_sms():
     try:
         sms = Notice.query.filter_by(name = '短信通知').first()
@@ -250,8 +250,8 @@ def get_sms():
         return '数据库异常', 500    
     
 
-@admin.route('/update_sms', methods=['post'], endpoint='update_sms')
-@jwt_required()
+@admin.route('/update_sms', methods=['post'])
+@jwt_required
 def update_sms():
     data = request.json.get('data', None)
     if not data:
@@ -266,8 +266,8 @@ def update_sms():
     # 重定向登录界面
     return '邮箱更新成功', 200
 
-@admin.route('/test_sms', methods=['post'], endpoint='test_sms')
-@jwt_required()
+@admin.route('/test_sms', methods=['post'])
+@jwt_required
 def test_sms():
     # print(request.json)
     mobile = request.json.get('mobile', None)
@@ -287,8 +287,8 @@ def test_sms():
         return '邮箱配置可能有错误', 400    
 
 # 分类增删改查
-@admin.route('/update_class', methods=['post'], endpoint='update_class') #增、删、改；查询的使用get方式
-@jwt_required()
+@admin.route('/update_class', methods=['post']) #增、删、改；查询的使用get方式
+@jwt_required
 def update_class():
     # print(request.json)
     id = request.json.get('id', None)
@@ -322,8 +322,8 @@ def update_class():
     # 重定向登录界面
     return '修改成功', 200
 
-@admin.route('/get_class', methods=['get'], endpoint='get_class') #分类查询
-@jwt_required()
+@admin.route('/get_class', methods=['get']) #分类查询
+@jwt_required
 def get_class():
     try:
         prod_cags = ProdCag.query.filter().all()
@@ -333,8 +333,8 @@ def get_class():
     
     return jsonify([x.to_json() for x in prod_cags])    
 
-@admin.route('/get_shop', methods=['get'], endpoint='get_shop') #商品查询
-@jwt_required()
+@admin.route('/get_shop', methods=['get']) #商品查询
+@jwt_required
 def get_shop():
     try:
         prod_shops = ProdInfo.query.filter().all()
@@ -343,8 +343,8 @@ def get_shop():
         return '数据库异常', 500        
     return jsonify([x.admin_json() for x in prod_shops])   
 
-@admin.route('/get_shop_edit', methods=['post'], endpoint='get_shop_edit') #商品全部信息返回
-@jwt_required()
+@admin.route('/get_shop_edit', methods=['post']) #商品全部信息返回
+@jwt_required
 def get_shop_edit():
     # print(request.json)
     id = request.json.get('id', None)
@@ -361,8 +361,8 @@ def get_shop_edit():
     # prod_shop['cags'] = [x.to_json()['name'] for x in prod_cags]
     return jsonify(info)   
 
-@admin.route('/update_shop', methods=['post'], endpoint='update_shop') #增、删、改；查询的使用get方式
-@jwt_required()
+@admin.route('/update_shop', methods=['post']) #增、删、改；查询的使用get方式
+@jwt_required
 def update_shop():
     
     id = request.json.get('id', None)
@@ -404,8 +404,8 @@ def update_shop():
     # 
     return '修改成功', 200
 
-@admin.route('/get_card', methods=['post'], endpoint='get_card') #卡密查询
-@jwt_required()
+@admin.route('/get_card', methods=['post']) #卡密查询
+@jwt_required
 def get_card():
     # print(request.json)
     page = request.json.get('page',None)
@@ -419,8 +419,8 @@ def get_card():
         return '数据库异常', 500      
     return jsonify([x.to_json() for x in cards])   
 
-@admin.route('/get_card_pages', methods=['get'], endpoint='get_card_pages') #卡密查询
-@jwt_required()
+@admin.route('/get_card_pages', methods=['get']) #卡密查询
+@jwt_required
 def get_card_pages():
     try:
         nums = Card.query.filter().count()
@@ -434,8 +434,8 @@ def get_card_pages():
         return '数据库异常', 500    
     return str(pages), 200
 
-@admin.route('/update_card', methods=['post'], endpoint='update_card') #卡密查询
-@jwt_required()
+@admin.route('/update_card', methods=['post']) #卡密查询
+@jwt_required
 def update_card():
     # print(request.json)
     id = request.json.get('id', None)
@@ -480,8 +480,8 @@ def update_card():
 
 
 
-@admin.route('/remove_cards', methods=['post'], endpoint='remove_cards') #批量删除卡密
-@jwt_required()
+@admin.route('/remove_cards', methods=['post']) #批量删除卡密
+@jwt_required
 def remove_cards():
     ids = request.json.get('ids', None)
     if not ids:
@@ -491,8 +491,8 @@ def remove_cards():
     return '批量删除', 200    
 
 
-@admin.route('/get_orders', methods=['post'], endpoint='get_orders') #已售订单信息
-@jwt_required()
+@admin.route('/get_orders', methods=['post']) #已售订单信息
+@jwt_required
 def get_orders():
     page = request.json.get('page',None)
     if not page:
@@ -504,8 +504,8 @@ def get_orders():
         return '数据库异常', 500      
     return jsonify([x.admin_json() for x in orders])   
 
-@admin.route('/get_tmp_orders', methods=['post'], endpoint='get_tmp_orders') #已售订单信息
-@jwt_required()
+@admin.route('/get_tmp_orders', methods=['post']) #已售订单信息
+@jwt_required
 def get_tmp_orders():
     page = request.json.get('page',None)
     if not page:
@@ -518,8 +518,8 @@ def get_tmp_orders():
         return '数据库异常', 500      
     return jsonify([x.to_json2() for x in orders])   
 
-@admin.route('/remove_order', methods=['post'], endpoint='remove_order') #删除卡密
-@jwt_required()
+@admin.route('/remove_order', methods=['post']) #删除卡密
+@jwt_required
 def remove_order():
     id = request.json.get('id', None)
     if not id:
@@ -537,8 +537,8 @@ def remove_order():
         log(e)
         return '数据库异常', 500   
 
-@admin.route('/get_orders_pages', methods=['get'], endpoint='get_orders_pages') #卡密查询
-@jwt_required()
+@admin.route('/get_orders_pages', methods=['get']) #卡密查询
+@jwt_required
 def get_orders_pages():
     try:
         nums = Order.query.filter().count()
@@ -552,8 +552,8 @@ def get_orders_pages():
         return '数据库异常', 500    
     return str(pages), 200
 
-@admin.route('/get_tmp_orders_pages', methods=['get'], endpoint='get_tmp_orders_pages') #卡密查询
-@jwt_required()
+@admin.route('/get_tmp_orders_pages', methods=['get']) #卡密查询
+@jwt_required
 def get_tmp_orders_pages():
     try:
         nums = TempOrder.query.filter().count()
@@ -566,8 +566,8 @@ def get_tmp_orders_pages():
         log(e)
         return '数据库异常', 500    
     return str(pages), 200
-@admin.route('/get_pays', methods=['get'], endpoint='get_pays') #支付接口
-@jwt_required()
+@admin.route('/get_pays', methods=['get']) #支付接口
+@jwt_required
 def get_pays():
     try:
         pays = Payment.query.filter().all()
@@ -576,8 +576,8 @@ def get_pays():
         return '数据库异常', 500      
     return jsonify([x.all_json() for x in pays])   
 
-@admin.route('/update_pays', methods=['get','post'], endpoint='update_pays') #支付接口get获取详细信息，post升级更新
-@jwt_required()
+@admin.route('/update_pays', methods=['get','post']) #支付接口get获取详细信息，post升级更新
+@jwt_required
 def update_pays():
     try:
         if request.method == 'GET':
@@ -597,8 +597,8 @@ def update_pays():
         return '数据库异常', 500      
 
 
-@admin.route('/get_notice', methods=['get'], endpoint='get_notice') #通知接口
-@jwt_required()
+@admin.route('/get_notice', methods=['get']) #通知接口
+@jwt_required
 def get_notice():
     try:
         notices = Notice.query.filter().order_by(Notice.id).all()
@@ -607,8 +607,8 @@ def get_notice():
         return '数据库异常', 500          
     return jsonify([x.to_json() for x in notices])   
 
-@admin.route('/update_notice', methods=['post'], endpoint='update_notice') #通知接口
-@jwt_required()
+@admin.route('/update_notice', methods=['post']) #通知接口
+@jwt_required
 def update_notice():
     data = request.json.get('data', None)
     if not data:
@@ -629,14 +629,14 @@ def update_notice():
     return '修改成功', 200 
 
 
-@admin.route('/get_admin_account', methods=['post'], endpoint='get_admin_account') #管理员
-@jwt_required()
+@admin.route('/get_admin_account', methods=['post']) #管理员
+@jwt_required
 def get_admin_account():
     return jsonify(AdminUser.query.filter_by(id = 1).first().to_json())   
 
 
-@admin.route('/update_admin_account', methods=['post'], endpoint='update_admin_account') #管理员
-@jwt_required()
+@admin.route('/update_admin_account', methods=['post']) #管理员
+@jwt_required
 def update_admin_account():
     email = request.json.get('email', None)
     password = request.json.get('password', None) #传入卡密列表   
@@ -648,14 +648,14 @@ def update_admin_account():
     return {"mgs": 'success'}, 200
 
 
-@admin.route('/get_system', methods=['post'], endpoint='get_system') #
-@jwt_required()
+@admin.route('/get_system', methods=['post']) #
+@jwt_required
 def get_system():
     res = Config.query.filter_by(isshow = True).all()
     return jsonify([x.to_json() for x in res])
 
-@admin.route('/update_system', methods=['post'], endpoint='update_system') #管理员
-@jwt_required()
+@admin.route('/update_system', methods=['post']) #管理员
+@jwt_required
 def update_system():
     data = request.json.get('data', None)
     if not data:
@@ -668,14 +668,14 @@ def update_system():
 
 
 
-@admin.route('/backups',methods=['POST'], endpoint='backups')
-@jwt_required()
+@admin.route('/backups',methods=['POST'])
+@jwt_required
 def backups():
     main_back()
     return {"mgs": 'success'}, 200
 
-@admin.route('/local_backup',methods=['GET'], endpoint='local_backup')
-@jwt_required()
+@admin.route('/local_backup',methods=['GET'])
+@jwt_required
 def local_backup():
     # types = request.json.get('types', None)   #备份类型；支付邮箱等系统配置；商品分类及卡密备份；历史订单备份
     # print(request.args)
@@ -714,8 +714,8 @@ def local_backup():
         return '导出失败', 400
 
 
-@admin.route('/tg_info', methods=['GET','POST'], endpoint='tg_info') #
-@jwt_required()
+@admin.route('/tg_info', methods=['GET','POST']) #
+@jwt_required
 def tg_info():
     if request.method == 'GET':
         res = Plugin.query.filter_by(name = 'TG发卡').first()
@@ -728,8 +728,8 @@ def tg_info():
             Plugin.query.filter_by(name = 'TG发卡').update({'config':str(data['config']),'about':data['about'],'switch':data['switch']})
         return '数据更新成功', 200 
 
-@admin.route('/theme',methods=['GET','POST'], endpoint='theme')
-@jwt_required()
+@admin.route('/theme',methods=['GET','POST'])
+@jwt_required
 def theme():
     if request.method == 'GET':
         res = Config.query.filter_by(name = 'theme').first()
@@ -743,4 +743,14 @@ def theme():
                 Config.query.filter_by(name = 'theme').update({'info':data})
             return '数据更新成功', 200
         return '更新失败', 400
+
+# def login():
+#     username = request.form['username']
+#     password = request.form['password']
+#     user = User.query.filter_by(username=username, password=password).first()
+#     if user is not None:
+#         session_util.login_success(user)
+#         return jsonify(Msg(True, gettext('login success')))
+#     return jsonify(Msg(False, gettext('username or password wrong')))
+
 

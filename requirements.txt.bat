@@ -1,14 +1,14 @@
 flask
 flask_sqlalchemy
 flask_cors
-flask_jwt_extended>=4.0.0
-python-alipay-sdk
+flask_jwt_extended==3.25.1
+python-alipay-sdk==2.1.1
 requests
 bcrypt
 gunicorn
 gevent
 pymysql
-flask_limiter==1.5
+flask_limiter
 psycopg2-binary
 # python-telegram-bot
 # qrcode

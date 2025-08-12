@@ -154,6 +154,9 @@ def check_pay():
     if TempOrder.query.filter_by(out_order_id = out_order_id,status = True).first():
         return jsonify({'msg':'success'})
     if payment and payment == '支付宝当面付':   # 未知失败原因
+           # 增加同步检查逻辑
+        if alipay_check(out_order_id):
+            return jsonify({'msg':'success'})
         executor.submit(alipay_check,out_order_id)  # 新增主动查询    
     return jsonify({'msg':'not paid'})  #支付状态校验            
 
