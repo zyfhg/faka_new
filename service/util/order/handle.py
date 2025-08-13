@@ -29,9 +29,11 @@ def notify_success(out_order_id):
             num = res.num
             total_price = res.total_price
             auto = res.auto        
-            with db.auto_commit_db():   # 更新卡密状态
+            with db.auto_commit_db():
+                # 确保状态更新被正确提交
                 TempOrder.query.filter_by(out_order_id = out_order_id).update({'status':True})
 
+            # 同步创建订单，而不是依赖异步
             make_order(out_order_id,name,payment,contact,contact_txt,price,num,total_price,auto)
     except Exception as e:
         print(e)
@@ -39,6 +41,8 @@ def notify_success(out_order_id):
 
 #创建订单--走数据库
 def make_order(out_order_id,name,payment,contact,contact_txt,price,num,total_price,auto):
+    # 增加日志
+    log(f"开始创建订单: {out_order_id}")
     # print('后台正在创建卡密')
     #订单ID，商品名称，支付方式，联系方式、备注、单价、数量、总价
     ## 根据name查找对应的卡密信息。---卡密有重复
@@ -113,9 +117,9 @@ def make_order(out_order_id,name,payment,contact,contact_txt,price,num,total_pri
             with db.auto_commit_db():
                 new_order= Order(out_order_id,name,payment,contact,contact_txt,price,num,total_price,card,None,None)
                 db.session.add(new_order)
-            # log('订单创建完毕')
+            log(f"订单创建成功: {out_order_id}")
         except Exception as e:
-            log(e)
+            log(f"订单创建失败: {out_order_id}, 错误: {e}")
             return '订单创建失败', 500         
 
         ##构造data数据

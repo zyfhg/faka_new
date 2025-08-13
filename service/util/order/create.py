@@ -141,7 +141,10 @@ def pay_url(payment, name, out_order_id, total_price):
 def alipay_check(out_order_id):
     r = AlipayF2F().check(out_order_id)
     if r:
-        executor.submit(notify_success, out_order_id)
+        #executor.submit(notify_success, out_order_id)
+        # 确保同步调用 notify_success，而不是异步
+        notify_success(out_order_id)
+        return True
         return True
     return False
 
