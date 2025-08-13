@@ -36,6 +36,7 @@
 ## 🍀部署方法：
 
 ### 1. 个人服务器快速安装：
+**服务器资源要求：** 支持2核CPU、2M内存的服务器配置，满足基础运行需求。
 ```bash
 # 安装命令
 docker run --name kmfaka -itd -p 8000:8000 ddhmgws/new_faka:v1.0
