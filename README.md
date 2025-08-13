@@ -56,8 +56,9 @@ docker rm -f kmfaka && docker rmi -f ddhmgws/new_faka:v1.0
 ## 🍳3.访问网址
 - 前端访客页面： http://ip:8000
 - 后端管理页面：http://ip:8000/admin
+后台地址`/admin`,默认管理员`admin@qq.com 123456` 可修改
 
-开发者咨询邮箱：[ddmgws@gmail.com](mailto:ddmgws@gmail.com)
+开发者付费定制咨询邮箱：[ddmgws@gmail.com](mailto:ddmgws@gmail.com)
 
 ## 🍰其他自研项目推荐
 - [文本对比](https://github.com/zyfhg/DiffCompare)
