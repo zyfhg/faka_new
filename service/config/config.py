@@ -87,11 +87,11 @@ def init_db(update=False):
     db.session.add(
         Config('web_url', 'http://107.148.243.178:8002', '必填，网站实际地址', True))
     db.session.add(Config(
-        'web_bg_url', 'https://cdn.jsdelivr.net/gh/Baiyuetribe/yyycode@dev/colorfull.jpg', '网站背景图片', True))
+        'web_bg_url', 'images/backGroup.png', '网站背景图片', True))
     db.session.add(
         Config('contact_us', '<p>示例，请在管理后台>>网站设置里修改，支持HTML格式</p>', '首页-联系我们', True))
     db.session.add(Config(
-        'web_footer', '<a style="color: #fafafa;" href="https://github.com/Baiyuetribe/kamiFaka">鲁ICP备1101XXXX号-10</a>', '可填写备案信息', True))
+        'web_footer', '<a style="color: #fafafa;" href="https://github.com/Baiyuetribe/kamiFaka">  </a>', '  ', True))
     db.session.add(Config('top_notice', '稳定版演示站点，公告信息可在后台设置', '首页公告', True))
     db.session.add(
         Config('toast_notice', '稳定版演示站点，公告信息可在后台设置', '首页滑动消息设置', True))
@@ -101,8 +101,8 @@ def init_db(update=False):
     db.session.add(Config('contact_option', '0', '是否启用联系方式查询[0启用，1关闭]', True))
     db.session.add(Config('theme', 'list', '主题', False))
     db.session.add(Config(
-        'kamiFaka', 'https://github.com/Baiyuetribe/kamiFaka', 'Github项目地址，用于手动检测新版', False))
-    db.session.add(Config('kamiFaka_v', '1.88', 'Github项目地址，用于手动检测新版', False))
+        'kamiFaka', ' ', ' ', False))
+    db.session.add(Config('kamiFaka_v', '1.88', ' ', False))
 
     # 通知渠道 ：名称；对管理员开关；对用户开关；对管理员需要管理员账号；用户无；名称+config+管理员+admin_switch+user_switch
     db.session.add(Notice(
